@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f8f2">
+    <meta name="description" content="Analise os pigmentos fotossintéticos de uma folha a partir de uma imagem.">
+    <title>Análise de Pigmentos Fotossintéticos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Clorofila, início">
+          <span class="brand-mark" aria-hidden="true">✳</span>
+          <span>clorofila<span class="brand-dot">.</span></span>
+        </a>
+        <span class="topbar-note">Laboratório vegetal</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span class="eyebrow-line"></span> Ciência ao alcance de todos</p>
+        <h1 id="page-title">Análise de Pigmentos <span>Fotossintéticos</span></h1>
+        <p class="intro-copy">Descubra o que a cor da sua folha revela. Carregue uma imagem para analisar os seus pigmentos.</p>
+      </section>
+
+      <section class="analysis-layout" aria-label="Análise da imagem">
+        <div class="panel upload-panel">
+          <div class="panel-heading">
+            <span class="step-number">01</span>
+            <div>
+              <h2>Escolha uma imagem</h2>
+              <p>Uma fotografia nítida da folha dá melhores resultados.</p>
+            </div>
+          </div>
+
+          <input id="image-input" type="file" accept="image/*" aria-describedby="upload-hint">
+          <label class="upload-area" for="image-input" id="upload-area">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v3A2.5 2.5 0 0 0 7.5 20h9a2.5 2.5 0 0 0 2.5-2.5v-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="upload-title">Toque para carregar uma imagem</span>
+            <span class="upload-subtitle" id="upload-hint">ou escolha um ficheiro do seu dispositivo</span>
+            <span class="upload-format">JPG, PNG ou outro formato de imagem</span>
+          </label>
+
+          <div class="preview-wrap" id="preview-wrap" hidden>
+            <img id="image-preview" alt="Pré-visualização da imagem selecionada">
+            <div class="preview-caption">
+              <span class="preview-indicator" aria-hidden="true"></span>
+              <span id="file-name"></span>
+              <button class="preview-change" id="change-image-button" type="button">Alterar</button>
+            </div>
+          </div>
+
+          <button class="analyze-button" id="analyze-button" type="button" disabled>
+            <span>Analisar Imagem</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <p class="privacy-note">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3 5 6v5c0 4.5 3 8.1 7 10 4-1.9 7-5.5 7-10V6l-7-3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            A sua imagem é usada apenas para esta análise.
+          </p>
+        </div>
+
+        <div class="panel results-panel" aria-live="polite" aria-atomic="true">
+          <div class="panel-heading results-heading">
+            <span class="step-number">02</span>
+            <div>
+              <h2>Resultado da análise</h2>
+              <p>Os pigmentos da sua folha, em detalhe.</p>
+            </div>
+          </div>
+
+          <div class="empty-state" id="empty-state">
+            <span class="empty-illustration" aria-hidden="true">
+              <svg viewBox="0 0 120 120" fill="none">
+                <path d="M93 23c-24 0-48 5-59 21-9 13-7 32 6 39 15 8 33-1 41-15 7-12 8-29 12-45Z" fill="#dcebd6"/>
+                <path d="M32 92c14-25 31-40 51-53M46 74l-2-19m15 6 19-4" stroke="#528357" stroke-width="3" stroke-linecap="round"/>
+                <path d="M33 95c-6 3-10 7-12 11" stroke="#b3cfa9" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <p>O seu resultado aparece aqui</p>
+            <span>Carregue uma imagem e inicie a análise.</span>
+          </div>
+
+          <div class="loading-state" id="loading-state" hidden>
+            <span class="spinner" aria-hidden="true"></span>
+            <p>A analisar...</p>
+            <span>Estamos a observar os pigmentos da sua folha.</span>
+          </div>
+
+          <div class="error-message" id="error-message" role="alert" hidden></div>
+
+          <div class="results-content" id="results-content" hidden>
+            <div class="status-banner" id="status-banner">
+              <span class="status-icon" id="status-icon" aria-hidden="true"></span>
+              <div>
+                <span class="status-label">Estado da folha</span>
+                <strong id="status-value"></strong>
+              </div>
+            </div>
+            <div class="result-grid" id="result-grid"></div>
+            <p class="interpretation" id="interpretation" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>Feito para cuidar do que cresce.</span>
+        <span class="footer-leaf" aria-hidden="true">✳</span>
+      </footer>
+    </main>
+  </body>
+</html>
